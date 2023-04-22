@@ -13,9 +13,14 @@ struct CurrencyView: View {
     
     @State private var selectedToCurrency = "JPY"
     
+    @State var textfieldInput: String = ""
+    
+    @State var opacoty_text: Double = 0.0
     //MARK: Computing property
     var body: some View {
         VStack{
+            TextField("input", text: $textfieldInput)
+                
             HStack{
                 Picker(selection: $selectedFromCurrency, label: Text("Exxchange currency to"), content: {
                     Text("USD").tag("USD")
@@ -46,10 +51,13 @@ struct CurrencyView: View {
                     Text("NZD").tag("NZD")
                 })
                 .pickerStyle(.wheel)
-                
-                
             }
-            
+            Button(action: {
+                
+            }, label: {
+                Text("Convert")
+            })
+            .buttonStyle(.borderedProminent)
             
             
             
