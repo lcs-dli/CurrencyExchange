@@ -16,60 +16,81 @@ struct CurrencyView: View {
     @State var textfieldInput: String = ""
     
     @State var opacoty_text: Double = 0.0
+    
+    @State var result: CurrencyExchange?
+    
+    var outputResult: String{
+        if result == nil{
+            return "0"
+        }
+        return String(result!.result)
+    }
     //MARK: Computing property
     var body: some View {
-        VStack{
-            TextField("input", text: $textfieldInput)
-                
-            HStack{
-                Picker(selection: $selectedFromCurrency, label: Text("Exxchange currency to"), content: {
-                    Text("USD").tag("USD")
-                    Text("EUR").tag("EUR")
-                    Text("JPY").tag("JPY")
-                    Text("GBP").tag("GBP")
-                    Text("AUD").tag("AUD")
-                    Text("CAD").tag("CAD")
-                    Text("CHF").tag("CHF")
-                    Text("CNH").tag("CNH")
-                    Text("HKD").tag("HKD")
-                    Text("NZD").tag("NZD")
+        NavigationView{
+            VStack{
+                TextField("input", text: $textfieldInput)
+                    
+                HStack{
+                    Text(textfieldInput)
+                    Spacer()
+                    
+                    Picker(selection: $selectedFromCurrency, label: Text("Exchange currency to"), content: {
+                        Text("USD").tag("USD")
+                        Text("EUR").tag("EUR")
+                        Text("JPY").tag("JPY")
+                        Text("GBP").tag("GBP")
+                        Text("AUD").tag("AUD")
+                        Text("CAD").tag("CAD")
+                        Text("CHF").tag("CHF")
+                        Text("CNY").tag("CNY")
+                        Text("HKD").tag("HKD")
+                        Text("NZD").tag("NZD")
+                    })
+                    .pickerStyle(.wheel)
+                    
+                    Text("to")
+                    Picker(selection: $selectedToCurrency, label: Text("Exchange currency to"), content: {
+                        Text("USD").tag("USD")
+                        Text("EUR").tag("EUR")
+                        Text("JPY").tag("JPY")
+                        Text("GBP").tag("GBP")
+                        Text("AUD").tag("AUD")
+                        Text("CAD").tag("CAD")
+                        Text("CHF").tag("CHF")
+                        Text("CNY").tag("CNY")
+                        Text("HKD").tag("HKD")
+                        Text("NZD").tag("NZD")
+                    })
+                    .pickerStyle(.wheel)
+                }
+                Button(action: {
+                    Task{
+                        
+                        result = await NetWorkServices.fetch(to: selectedToCurrency, from: selectedFromCurrency, amount: textfieldInput)
+                    }
+                }, label: {
+                    Text("Convert")
                 })
-                .pickerStyle(.wheel)
+                .buttonStyle(.borderedProminent)
                 
-                Text("to")
+               
+                if let result = result{
+                    Text("\(String(result.result)) \(selectedToCurrency)")
+                }else{
+                    ProgressView()
+                }
                 
-                Picker(selection: $selectedToCurrency, label: Text("Exchange currency to"), content: {
-                    Text("USD").tag("USD")
-                    Text("EUR").tag("EUR")
-                    Text("JPY").tag("JPY")
-                    Text("GBP").tag("GBP")
-                    Text("AUD").tag("AUD")
-                    Text("CAD").tag("CAD")
-                    Text("CHF").tag("CHF")
-                    Text("CNH").tag("CNH")
-                    Text("HKD").tag("HKD")
-                    Text("NZD").tag("NZD")
-                })
-                .pickerStyle(.wheel)
             }
-            Button(action: {
-                
-            }, label: {
-                Text("Convert")
-            })
-            .buttonStyle(.borderedProminent)
-            
-            
-            
-        }
-        
-        
+        }.navigationTitle("Currency Exchange")
         
     }
 }
 
 struct CurrencyView_Previews: PreviewProvider {
     static var previews: some View {
-        CurrencyView()
+        NavigationView{
+            CurrencyView()
+        }
     }
 }

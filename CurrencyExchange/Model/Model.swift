@@ -7,10 +7,8 @@
 
 import Foundation
 
-struct CurrencyExchange: Identifiable, Codable{
-    let from: String
-    let to: String
-    let amount: String
-    let result: String
-    let id: Int
+struct CurrencyExchange: Codable{
+    let date:String
+    let result: Double
+    let success: Bool
 }
