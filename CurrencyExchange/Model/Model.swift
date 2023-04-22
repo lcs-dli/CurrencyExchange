@@ -11,4 +11,6 @@ struct CurrencyExchange: Codable{
     let date:String
     let result: Double
     let success: Bool
+    let info: info
+    let query: Query
 }
