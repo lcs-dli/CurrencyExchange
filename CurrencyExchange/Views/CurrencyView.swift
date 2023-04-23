@@ -74,6 +74,7 @@ struct CurrencyView: View {
                         Text("Convert")
                     })
                     .buttonStyle(.borderedProminent)
+                    .disabled(textfieldInput == "")
                     
                     
                     
