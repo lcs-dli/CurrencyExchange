@@ -91,6 +91,7 @@ struct CurrencyView: View {
                         Text("Save result")
                     })
                     .buttonStyle(.borderedProminent)
+                    .disabled(result == nil)
                     
                     Spacer()
                     
