@@ -31,7 +31,7 @@ struct CurrencyView: View {
     var body: some View {
         NavigationView{
                 VStack{
-                    TextField("input", text: $textfieldInput)
+                    TextField("input HERE! ", text: $textfieldInput)
                         .multilineTextAlignment(.center)
                     
                     HStack{
